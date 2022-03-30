@@ -2,13 +2,10 @@ name: workflowNewman
 on: [push, pull_request]
 
 jobs:
-  build:
+  newman:
     runs-on: ubuntu-latest
-
-  steps:
-    - name: Check out Git repositor
-      uses: actions/checkout@v1
-    - name: Install newman
-      run: npm install -g newman
-    - name: Run the API and Postman's tests
-      run: echo hello
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@master
+      - name: Install dependencies
+        run: npm install --global newman
