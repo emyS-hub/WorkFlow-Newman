@@ -7,5 +7,24 @@ jobs:
     steps:
       - name: checkout repo
         uses: actions/checkout@master
+
       - name: Install dependencies
-        run: npm install --global newman
+        run: npm install --global newman newman-reporter-htmlextra
+
+      - name: Run Postman Collection
+        run: newman run https://www.getpostman.com/collections/ba47e81be11dcbfcaae0 -r cli,junit,htmlextra
+
+      - name: Publish JUnit reports
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: API tests # Name of the check run which will be created
+          path: newman/*.xml # Path to test results
+          reporter: java-junit
+
+      - name: Publier le rapport HTML
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-report-${{ github.run_id }}
+          path: newman/*.html
