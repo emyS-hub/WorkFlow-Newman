@@ -12,15 +12,7 @@ jobs:
         run: npm install --global newman newman-reporter-htmlextra
 
       - name: Run Postman Collection
-        run: newman run https://www.getpostman.com/collections/ba47e81be11dcbfcaae0 -r cli,junit,htmlextra
-
-      - name: Publish JUnit reports
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: API tests # Name of the check run which will be created
-          path: newman/*.xml # Path to test results
-          reporter: java-junit
+        run: newman run https://www.getpostman.com/collections/ba47e81be11dcbfcaae0 -r htmlextra
 
       - name: Publier le rapport HTML
         uses: actions/upload-artifact@v3
